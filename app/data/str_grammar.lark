@@ -1,0 +1,33 @@
+%import common.NUMBER
+
+?comp  : expr
+    | lesseq
+    | less
+    | moreeq
+    | more
+lesseq  : comp "<=" expr
+less  : comp "<" expr
+moreeq  : comp ">=" expr
+more  : comp ">" expr
+
+?expr  : term
+    | add
+    | sub
+add  : expr "+" term
+sub  : expr "-" term
+
+?term  : roll
+    | mul
+    | div
+mul  : term "*" roll
+div  : term "/" roll
+
+?roll  : factor
+    | dice
+dice  : roll "d" factor
+
+?factor : number
+    | bracket
+bracket  : "(" comp ")"
+
+number : NUMBER
