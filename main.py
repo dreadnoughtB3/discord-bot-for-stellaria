@@ -18,6 +18,9 @@ from command.register import register , staminaloop , sutaC , stamina , QUdeta ,
 from timer.stock_make import stock_make
 from timer.trade_make import trade_make
 from server import server_thread
+from module.get_datetime import get_japan_current_time
+
+from scripts.diffLogger import logging_edit, logging_delete
 
 client = discord.Client(intents=discord.Intents.all())
 load_dotenv(verbose=True)
@@ -36,11 +39,11 @@ def isint(s):  # 整数値かどうかを判定する関数
 async def loop():
     staminaloop()
     # 現在の時刻
-    now = datetime.now().strftime('%H:%M')
+    now = get_japan_current_time().strftime('%H:%M')
     if now == '00:00' or now == '12:00':
     # 交易投稿
         trade_make()
-        channel = client.get_channel(992623803291144244) # Stella
+        channel = client.get_channel(1308044156517617678) # Stella
         await channel.send(file=discord.File("output/trade.jpg"))
     if now == '00:00':
         embed_f, embed_n = stock_make()
@@ -290,6 +293,20 @@ async def on_message(message):
             send_message = "https://tenor.com/view/lemon-meringue-pie-pies-dessert-pie-gif-2665188071120448341"
             await message.channel.send(send_message)
 
+
+@client.event
+async def on_message_edit(before, after):
+    if before.author.id == 344181098818830338:
+        channel = client.get_channel(1308387319002169404)
+        send_message = logging_edit(before, after)
+        await channel.send(send_message)
+
+@client.event
+async def on_message_delete(message):
+    if message.author.id == 344181098818830338:
+        channel = client.get_channel(1308387319002169404)
+        send_message = logging_delete(message)
+        await channel.send(send_message)
 
 server_thread()
 client.run(TOKEN)
