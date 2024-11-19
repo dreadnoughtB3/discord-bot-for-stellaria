@@ -1,5 +1,6 @@
 import os
 import sys
+from command.cheat import get_cheat
 
 sys.path.append(os.path.join(os.path.dirname("module"), ".."))
 
@@ -10,7 +11,12 @@ def pastreroll(seq):
 
 # ?auto キャラメイクコマンド
 def auto():
+    cheat = get_cheat("auto")
+    if cheat:
+        return create_cheat_data(cheat)
+
     # ライフパス
+
     lifepath = "```名前:\n"
     lifepath += "レベル:0\n"
     lifepath += "家柄:[{}, {}, {}, {}, {}]\n".format(dice(100), dice(100),
@@ -162,3 +168,75 @@ def past2_dice():
         return "失意"
     else:
         return "憧憬"
+
+
+def create_cheat_data(cheat_data: dict):
+    lifepath = "```名前:\n"
+    lifepath += "レベル:0\n"
+
+    lifepath += f"家柄:[{cheat_data['pedigree'][0]}, {cheat_data['pedigree'][1]}, {cheat_data['pedigree'][2]}, {cheat_data['pedigree'][3]}, {cheat_data['pedigree'][4]}]\n"
+
+    lifepath += "種族:\n"
+    lifepath += "年代:\n"
+    lifepath += "出自:\n"
+    lifepath += "性別:\n"
+
+    lifepath += "属性:{}属性 or {}属性\n".format(cheat_data["element"][0], cheat_data["element"][1])
+
+    lifepath += "人種:\n"
+    lifepath += "[過去]\n"
+    past0 = cheat_data["past0"]
+    past1 = cheat_data["past1"]
+    past2 = cheat_data["past2"]
+    lifepath += "0章:{0[0]} or {0[1]} or {0[2]}\n".format(past0)
+    lifepath += "1章:{0[0]} or {0[1]} or {0[2]}\n".format(past1)
+    lifepath += "2章:{0[0]} or {0[1]} or {0[2]}```".format(past2)
+
+    # メインステータス
+    STR = cheat_data["STR"]
+    INT = cheat_data["INT"]
+    DEX = cheat_data["DEX"]
+    MND = cheat_data["MND"]
+    SIZ = cheat_data["SIZ"]
+    VIT = cheat_data["VIT"]
+    APP = cheat_data["APP"]
+    ART = cheat_data["ART"]
+    BUS = cheat_data["BUS"]
+
+    mainstatus = "```筋力:[{0[0]: <2}, {0[1]: <2}, {0[2]: <2}, {0[3]: <2}]\n".format(STR)
+    mainstatus += "知力:[{0[0]: >2}, {0[1]: >2}, {0[2]: >2}, {0[3]: >2}]\n".format(INT)
+    mainstatus += "敏捷:[{0[0]: >2}, {0[1]: >2}, {0[2]: >2}, {0[3]: >2}]\n".format(DEX)
+    mainstatus += "精神:[{0[0]: >2}, {0[1]: >2}, {0[2]: >2}, {0[3]: >2}]\n".format(MND)
+    mainstatus += "体格:[{0[0]: >2}, {0[1]: >2}, {0[2]: >2}, {0[3]: >2}]\n".format(SIZ)
+    mainstatus += "生命:[{0[0]: >2}, {0[1]: >2}, {0[2]: >2}, {0[3]: >2}]\n".format(VIT)
+    mainstatus += "容姿:[{0[0]: >2}, {0[1]: >2}, {0[2]: >2}, {0[3]: >2}]\n".format(APP)
+    mainstatus += "芸術:[{0[0]: >2}, {0[1]: >2}, {0[2]: >2}, {0[3]: >2}]\n".format(ART)
+    mainstatus += "商才:[{0[0]: >2}, {0[1]: >2}, {0[2]: >2}, {0[3]: >2}]\n".format(BUS)
+    mainstatus += "信仰:```"
+
+    # 導出ステータス
+    calstatus = "```HP:\n"
+    calstatus += "MP:\n"
+    calstatus += "幸運:\n"
+    calstatus += "スタミナ:\n"
+    calstatus += "気絶点:\n"
+    calstatus += "依存点:\n"
+    calstatus += "魅力:\n"
+    calstatus += "知識:\n"
+    calstatus += "SAN:\n"
+    calstatus += "基礎技能P:\n"
+    calstatus += "母国語(初期判定値70):\n"
+    calstatus += "AB:\n"
+    calstatus += "白兵:1d 魔法:1d```"
+
+    # サブステータス
+    substatus = "```サブステータス:\n"
+    substatus += "膂力:\n"
+    substatus += "叡智:\n"
+    substatus += "体力:\n"
+    substatus += "持久力:\n"
+    substatus += "技量:\n"
+    substatus += "神聖:\n"
+    substatus += "商売:```"
+    
+    return lifepath, mainstatus, calstatus, substatus
