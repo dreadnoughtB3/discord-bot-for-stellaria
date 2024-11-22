@@ -19,6 +19,7 @@ from timer.stock_make import stock_make
 from timer.trade_make import trade_make
 from server import server_thread
 from module.get_datetime import get_japan_current_time
+from utils.static_data import get_guild_ids
 
 from scripts.diffLogger import logging_edit, logging_delete
 
@@ -41,9 +42,9 @@ async def loop():
     # 現在の時刻
     now = get_japan_current_time().strftime('%H:%M')
     if now == '00:00' or now == '12:00':
-    # 交易投稿
+        # 交易投稿
         trade_make()
-        channel = client.get_channel(1308044156517617678) # Stella
+        channel = client.get_channel(992623803291144244) # Stella
         await channel.send(file=discord.File("output/trade.jpg"))
     if now == '00:00':
         embed_f, embed_n = stock_make()
@@ -65,6 +66,10 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if message.author.bot:
+        return
+
+    # ステラリアかテスト用鯖以外なら反応しないように
+    if message.guild and message.guild.id not in get_guild_ids():
         return
 
     # ダイスロール
