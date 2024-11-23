@@ -1,3 +1,5 @@
 .env
 .vscode
 .flake8
+data/stock_f.csv
+data/stock_n.csv
