@@ -12,7 +12,7 @@ def gacha(kind, count):
     count = int(count)
 
     # ファイル読み込み
-    with open("data/gacha.csv") as f:
+    with open("data/gacha.csv", encoding="shift_jis") as f:
         reader = csv.DictReader(f)
         for data in reader:
             # 種類指定が一致している場合

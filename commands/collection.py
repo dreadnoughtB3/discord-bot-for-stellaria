@@ -13,7 +13,7 @@ def gather(kind, count, skill):
     count = int(count)
 
     # ファイル読み込み
-    with open("data/gather.csv") as f:
+    with open("data/gather.csv", encoding="shift_jis") as f:
         reader = csv.DictReader(f)
         for data in reader:
             # 場所指定が一致している場合
@@ -35,7 +35,7 @@ def fell(kind, count, skill):
     count = int(count)
 
     # ファイル読み込み
-    with open("data/fell.csv") as f:
+    with open("data/fell.csv", encoding="shift_jis") as f:
         reader = csv.DictReader(f)
         for data in reader:
             # 場所指定が一致している場合
@@ -57,7 +57,7 @@ def mine(kind, count, skill):
     count = int(count)
 
     # ファイル読み込み
-    with open("data/mine.csv") as f:
+    with open("data/mine.csv", encoding="shift_jis") as f:
         reader = csv.DictReader(f)
         for data in reader:
             # 場所指定が一致している場合

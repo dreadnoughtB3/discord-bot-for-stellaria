@@ -14,7 +14,7 @@ class General(commands.Cog):
 
     @check_allowed_guild()
     @commands.command(name="r")
-    async def roll(self, ctx, expression: str, *, desc: str = "Result"):
+    async def roll(self, ctx, expression: str = "1d100", *, desc: str = "Result"):
         result, total = dice_roll(expression)
         if result is not None:
             send_message = f"<@{ctx.author.id}> \N{Game Die}\n**{desc}**: {result}\n**Total**: {total}"

@@ -36,7 +36,7 @@ def stock_module(data_path, emb_title, emb_description, graph_title, output_path
     stock_y = []
     economy_y = []
     # データ読み込み data_path: data/stock_f.csv
-    with open(data_path) as f:
+    with open(data_path, encoding="utf-8") as f:
         reader = csv.reader(f)
         i = 0
         for row in reader:
@@ -186,7 +186,7 @@ def stock_module(data_path, emb_title, emb_description, graph_title, output_path
         embed.add_field(name="```物価変動:```", value=today_cost, inline=True)
 
     # データ更新
-    with open(data_path, "w", newline='') as f:
+    with open(data_path, "w", newline='', encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(stock_y)
         writer.writerow(economy_y)
