@@ -14,28 +14,32 @@ class General(commands.Cog):
 
     @check_allowed_guild()
     @commands.command(name="r")
-    async def roll(self, ctx, *, expression: str):
+    async def roll(self, ctx, expression: str, *, desc: str = "Result"):
         result, total = dice_roll(expression)
         if result is not None:
-            send_message = f"<@{ctx.author.id}> \N{Game Die}\n**Result**: {result}\n**Total**: {total}"
+            send_message = f"<@{ctx.author.id}> \N{Game Die}\n**{desc}**: {result}\n**Total**: {total}"
             await ctx.send(send_message)
         else:
             await ctx.send("**Error**: 不明なエラーが発生しました")
 
     @check_allowed_guild()
     @commands.command(name="rr")
-    async def multi_roll(self, ctx, count: str, *, expression: str):
+    async def multi_roll(self, ctx, count: str, expression: str, *, desc: str = None):
         # カウントが整数ではない
         if not count.isdecimal():
             await ctx.send("**Error**: 不明なエラーが発生しました")
             return
 
         count = int(count)
-        if count > 100:
+        if 0 >= count > 100:
             await ctx.send("**Error**: Dice count is too many.")
             return
 
         send_message = f"<@{ctx.author.id}> \N{Game Die}\n"
+        if desc != None:
+            send_message += f"{desc}: Rolling {count} iterations...\n"
+        else:
+            send_message += f"Rolling {count} iterations...\n"
         totals = 0
 
         for i in range(count):
