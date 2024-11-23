@@ -44,7 +44,7 @@ async def loop():
 async def on_ready():
     """Bot起動時に実行される処理"""
     print(f"{bot.user}: 起動完了")
-    check_stock_data() # 株価用CSVデータが存在しない場合は初期化する
+    check_stock_data()  # 株価用CSVデータが存在しない場合は初期化する
     loop.start()
 
 

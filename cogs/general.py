@@ -36,7 +36,7 @@ class General(commands.Cog):
             return
 
         send_message = f"<@{ctx.author.id}> \N{Game Die}\n"
-        if desc != None:
+        if desc:
             send_message += f"{desc}: Rolling {count} iterations...\n"
         else:
             send_message += f"Rolling {count} iterations...\n"
