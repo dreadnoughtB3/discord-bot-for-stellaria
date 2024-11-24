@@ -162,7 +162,7 @@ class Character(commands.Cog):
     async def slash_create(
         self, interaction: discord.Interaction, name: str, avatar_url: str
     ):
-        if not avatar_url.startswith("https://") or not avatar_url.startswith(
+        if not avatar_url.startswith("https://") and not avatar_url.startswith(
             "http://"
         ):
             await interaction.response.send_message(
