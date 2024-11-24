@@ -21,6 +21,9 @@ class Character(commands.Cog):
         if not name or not avatar:
             await ctx.send("> 必要な情報が不足しています")
             return
+        if not avatar.startswith("https://") or not avatar.startswith("http://"):
+            await ctx.send("> アバター画像のURLが正しくありません")
+            return
         res = add_character(ctx.author.id, name, avatar)
         set_character_cache(ctx.author.id, str(res), name, avatar)
         await ctx.send(f"> {res}番でキャラクターを追加しました")
@@ -92,9 +95,7 @@ class Character(commands.Cog):
             for item in sorted(res, key=lambda x: x[1]):
                 send_message += f"[{item[1]}]：{item[0]}\n"
             send_message += "\n```"
-            await interaction.response.send_message(
-                send_message, ephemeral=True
-            )
+            await interaction.response.send_message(send_message, ephemeral=True)
         else:
             await interaction.response.send_message(
                 "> キャラクターが存在しません", ephemeral=True
@@ -108,7 +109,7 @@ class Character(commands.Cog):
         interaction: discord.Interaction,
         character_idx: int,
         content: str,
-        target: Union[discord.TextChannel, discord.Thread] = None,
+        target: Union[discord.TextChannel, discord.Thread, discord.ForumChannel] = None,
     ):
         cache = get_character_cache(interaction.user.id, character_idx)
         # キャッシュが存在する場合
@@ -134,6 +135,9 @@ class Character(commands.Cog):
             channel = self.bot.get_channel(target.id)
         elif isinstance(target, discord.Thread):
             channel = self.bot.get_channel(target.parent_id)
+        elif isinstance(interaction.channel, discord.Thread):
+            channel = self.bot.get_channel(interaction.channel.parent_id)
+            target = interaction.channel
         else:
             channel = self.bot.get_channel(interaction.channel_id)
 
@@ -152,8 +156,23 @@ class Character(commands.Cog):
                 content=content, username=name, wait=True, avatar_url=avatar_url
             )
         await webhook.delete()
+        await interaction.response.send_message("> 送信しました", ephemeral=True)
+
+    @app_commands.command(name="create", description="Create your webhook character")
+    async def slash_create(
+        self, interaction: discord.Interaction, name: str, avatar_url: str
+    ):
+        if not avatar_url.startswith("https://") or not avatar_url.startswith(
+            "http://"
+        ):
+            await interaction.response.send_message(
+                "> アバター画像のURLが正しくありません", ephemeral=False
+            )
+            return
+        res = add_character(interaction.user.id, name, avatar_url)
+        set_character_cache(interaction.user.id, str(res), name, avatar_url)
         await interaction.response.send_message(
-            "> 送信しました", ephemeral=True
+            f"> {res}番でキャラクターを追加しました", ephemeral=False
         )
 
 
