@@ -26,18 +26,20 @@ def add_character(owner_id: int, name: str, avatar_url: str):
 
         # owner_idごとの件数を取得
         count_query = """
-            SELECT COUNT(*)
+            SELECT character_index
             FROM webhook_characters
             WHERE owner_id = %s;
         """
         cursor.execute(count_query, (owner_id,))
-        result = cursor.fetchone()
+        existing_indexes = [row[0] for row in cursor.fetchall()]
 
-        # 件数が存在しない場合はindexを1とする
-        if result[0]:
-            new_character_index = result[0] + 1
-        else:
-            new_character_index = 1
+        # 欠番を探す
+        next_index = 1
+        for index in existing_indexes:
+            if index == next_index:
+                next_index += 1
+            else:
+                break
 
         # INSERTクエリを実行
         insert_query = """
@@ -45,7 +47,7 @@ def add_character(owner_id: int, name: str, avatar_url: str):
             VALUES (%s, %s, %s, %s)
             RETURNING id, character_index;
         """
-        cursor.execute(insert_query, (owner_id, name, avatar_url, new_character_index))
+        cursor.execute(insert_query, (owner_id, name, avatar_url, next_index))
 
         # 挿入されたレコードのIDとcharacter_indexを取得
         inserted_index = cursor.fetchone()
@@ -87,6 +89,35 @@ def get_character(owner_id: str, character_index: int):
         if conn:
             conn.rollback()
         return False, False, False
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+
+def delete_character(owner_id: str, character_index: str) -> bool:
+    try:
+        conn = psycopg2.connect(**DB_CONFIG)
+        cursor = conn.cursor()
+        owner_id = str(owner_id)
+
+        delete_query = """
+            DELETE
+            FROM webhook_characters
+            WHERE owner_id = %s AND character_index = %s;
+        """
+        cursor.execute(delete_query, (owner_id, character_index))
+        if cursor.rowcount > 0:
+            conn.commit()
+            return True
+        else:
+            return False
+    except psycopg2.Error as e:
+        print(f"Database error: {e}")
+        if conn:
+            conn.rollback()
+        return False
     finally:
         if cursor:
             cursor.close()
