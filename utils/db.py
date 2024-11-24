@@ -123,3 +123,32 @@ def delete_character(owner_id: str, character_index: str) -> bool:
             cursor.close()
         if conn:
             conn.close()
+
+
+def get_all_character(owner_id: str):
+    try:
+        conn = psycopg2.connect(**DB_CONFIG)
+        cursor = conn.cursor()
+        owner_id = str(owner_id)
+
+        select_query = """
+            SELECT name, character_index
+            FROM webhook_characters
+            WHERE owner_id = %s;
+        """
+        cursor.execute(select_query, (owner_id,))
+        result = cursor.fetchall()
+        if len(result) == 0:
+            return False
+        else:
+            return result
+    except psycopg2.Error as e:
+        print(f"Database error: {e}")
+        if conn:
+            conn.rollback()
+        return False
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()

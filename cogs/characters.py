@@ -3,7 +3,7 @@ from typing import Union
 from discord.ext import commands
 from discord import app_commands
 from utils.check_guild import check_allowed_guild
-from utils.db import add_character, get_character, delete_character
+from utils.db import add_character, get_character, delete_character, get_all_character
 from utils.characters_cache import (
     get_character_cache,
     delete_character_cache,
@@ -83,6 +83,22 @@ class Character(commands.Cog):
             await ctx.send(f"> {character_idx}番のキャラクターを削除しました")
         else:
             await ctx.send("> 不明なエラーが発生しました")
+
+    @app_commands.command(name="list", description="Show all your character list")
+    async def character_list(self, interaction: discord.Interaction):
+        res = get_all_character(interaction.user.id)
+        if res:
+            send_message = "> **登録済みキャラクター一覧** :\n```"
+            for item in sorted(res, key=lambda x: x[1]):
+                send_message += f"[{item[1]}]：{item[0]}\n"
+            send_message += "\n```"
+            await interaction.response.send_message(
+                send_message, ephemeral=True
+            )
+        else:
+            await interaction.response.send_message(
+                "> キャラクターが存在しません", ephemeral=True
+            )
 
     @app_commands.command(
         name="say", description="Say something with webhook character."
