@@ -13,7 +13,7 @@ from scripts.check_file_exist import check_stock_data
 from server import server_thread
 
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix="$", intents=intents)
+bot = commands.Bot(command_prefix="?", intents=intents)
 load_dotenv(verbose=True)
 TOKEN = os.environ.get("TOKEN")
 
