@@ -1,0 +1,55 @@
+{
+  "enemies": {
+    "eny1": {
+      "name": "ブラッド・ゴブリン",
+      "type": "血属性",
+      "hp": 25,
+      "phys_def": 2,
+      "magic_def": 2,
+      "phys_cut": 20,
+      "magic_cut": 20,
+      "atk_acur": 50,
+      "ave_acur": "なし",
+      "skill_num": 2,
+      "skills": ["skl1", "skl2"]
+    },
+    "eny2": {
+      "name": "ブラッド・ウルフ",
+      "type": "血属性",
+      "hp": 25,
+      "phys_def": 2,
+      "magic_def": 2,
+      "phys_cut": 20,
+      "magic_cut": 20,
+      "atk_acur": 50,
+      "ave_acur": "なし",
+      "skill_num": 2,
+      "skills": ["skl1", "skl2"]
+    },
+    "eny3": {
+      "name": "ブラッド・ウルフ",
+      "type": "血属性",
+      "base_hp": 25,
+      "base_phys_def": 2,
+      "base_magic_def": 2,
+      "base_phys_cut": 20,
+      "base_magic_cut": 20,
+      "base_atk_acur": 50,
+      "base_ave_acur": 0,
+      "base_phys": 0,
+      "base_magi": 0,
+      "skill_num": 2,
+      "skills": ["skl3", "skl4"]
+    }
+  },
+  "skills": {
+    "skl1": {
+      "name": "噛みつき/物理/無属性",
+      "desc": "（噛みついてくる。威力2d10+2）"
+    },
+    "skl2": {
+      "name": "棍棒/物理/無属性",
+      "desc": "（棍棒で殴打してくる。威力2d8+6）"
+    }
+  }
+}

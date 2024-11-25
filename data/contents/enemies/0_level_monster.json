@@ -1,0 +1,90 @@
+{
+  "enemies": {
+    "eny1": {
+      "name": "ゴブリン",
+      "type": "無属性",
+      "hp": 25,
+      "phys_def": 1,
+      "magic_def": 0,
+      "phys_cut": 20,
+      "magic_cut": 20,
+      "atk_acur": 50,
+      "ave_acur": "なし",
+      "skill_num": 2,
+      "skills": ["skl1", "skl2"]
+    },
+    "eny2": {
+      "name": "ブラッド・ウルフ",
+      "type": "血属性",
+      "hp": 35,
+      "phys_def": 2,
+      "magic_def": 1,
+      "phys_cut": 30,
+      "magic_cut": 30,
+      "atk_acur": 60,
+      "ave_acur": 10,
+      "skill_num": 2,
+      "skills": ["skl7", "skl8"]
+    },
+    "eny3": {
+      "name": "ブラッド・スケルトン",
+      "type": "血属性",
+      "hp": 80,
+      "phys_def": 6,
+      "magic_def": "なし",
+      "phys_cut": 20,
+      "magic_cut": "なし",
+      "atk_acur": 90,
+      "ave_acur": 25,
+      "skill_num": 3,
+      "skills": ["skl3", "skl4"]
+    },
+    "eny4": {
+      "name": "マミー",
+      "type": "血属性",
+      "hp": 30,
+      "phys_def": 1,
+      "magic_def": 1,
+      "phys_cut": 10,
+      "magic_cut": 20,
+      "atk_acur": 60,
+      "ave_acur": 10,
+      "skill_num": 2,
+      "skills": ["skl5", "skl6"]
+    }
+  },
+  "skills": {
+    "skl1": {
+      "name": "噛みつき/単体/物理/無属性",
+      "desc": "（噛みついてくる。威力2d10+2）"
+    },
+    "skl2": {
+      "name": "棍棒/単体/物理/無属性",
+      "desc": "（棍棒で殴打してくる。威力2d8+6）"
+    },
+    "skl3": {
+      "name": "弓/全体/物理",
+      "desc": "（粗末な弓を射かける。威力3d10）"
+    },
+    "skl4": {
+      "name": "槍/単体/物理",
+      "desc": "（単体を槍でつつく。威力4d10）"
+    },
+    "skl5": {
+      "name": "エーテルアロー/単体/魔法",
+      "desc": "（威力2d6+6d5のエーテルアローを発射する）"
+    },
+    "skl6": {
+      "name": "エーテルブラスト/全体/魔法",
+      "desc": "（威力1d6+6d5のブラストを発射する）"
+    },
+    "skl7": {
+      "name": "噛みつき/単体/物理",
+      "desc": "（牙で噛みつく。威力3d8+1）"
+    },
+    "skl8": {
+      "name": "突進/単体/物理",
+      "desc": "（相手に突進する。威力2d12+4）"
+    }
+  }
+}
