@@ -9,6 +9,8 @@ from modules.get_datetime import get_japan_current_time
 from scripts.stock_make import stock_make
 from scripts.trade_make import trade_make
 from scripts.check_file_exist import check_stock_data
+from commands.dungeon import init_dungeon_data
+from commands.enemies import init_enemy_data
 
 from server import server_thread
 
@@ -45,6 +47,9 @@ async def on_ready():
     """Bot起動時に実行される処理"""
     print(f"{bot.user}: 起動完了")
     await bot.tree.sync()
+    # ダンジョンデータのながしこみ
+    init_dungeon_data()
+    init_enemy_data()
     check_stock_data()  # 株価用CSVデータが存在しない場合は初期化する
     loop.start()
 
